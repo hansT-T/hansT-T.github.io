@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Linux内核设计与实现学习笔记——ch2</title>
+      <link href="//Linux%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-ch2/"/>
+      <url>//Linux%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-ch2/</url>
+      
+        <content type="html"><![CDATA[<p><img src="/../images/linux.jpg" alt="$cover"></p><h1 id="获取内核源码"><a href="#获取内核源码" class="headerlink" title="获取内核源码"></a>获取内核源码</h1><p>现如今，获取Linux内核源码大家应该都会使用git吧，非常的方便，书里介绍git是过去几年才开始使用来管理linux源码的，到如今应是过去十几年了。</p><p>这里就不说如何获取内核源码了，但可以说一下我弄出来的趣事。这次为了深入学习Linux内核，我特地租了一台服务器来折腾这件事，对于一个只有2G内存的服务器，在clone内核源码时，竟然超过缓存了，直接clone不下来，在2024年确实从来没遇到过这种问题，不过在这种小内存的机器上折腾，感觉回到了过去的时代，也是在这样资源紧张的设备上，对每一个资源，内存控制的精准。当然，最后的解决办法是在我2023年的电脑上clone下来再远程传到服务器上了。</p><h1 id="编译内核"><a href="#编译内核" class="headerlink" title="编译内核"></a>编译内核</h1><h2 id="1-选择配置模块"><a href="#1-选择配置模块" class="headerlink" title="1.选择配置模块"></a>1.选择配置模块</h2><p>这里介绍了许多命令，来配置内核模块，因为Linux内核采用微内核的模块化设计，按照功能划分为多个独立的模块，但将各模块全部运行在内核空间，这样既模块化了，但又不承担各模块直接通信IPC的代价，所以需要配置内核模块。</p><ul><li>make config 命令行逐一询问是否要加载模块.</li><li>make menuconfig 逐一询问太过于复杂，所以使用图形化界面</li><li>Make gconfig 也是图形，不过是GNOME。</li><li>Make defconfig 使用默认的配置</li></ul><p>此外，还有一种<br>‘’’<br>lsmod &gt; /tmp/lsmod.now<br>cd ${LKP_KSRC}<br>make LSMOD=/tmp/lsmod.now localmodconfig<br>‘’’<br>将当前的模块重定向到一个配置文件中，这样就可以定制化配置模块了。</p><p>现在的还有一种使用设备树的方法，来配置Linux内核，主要是针对于很多的架构要使用不同的Linux内核。~~~大概，这个我也还不是很懂~~~</p><h2 id="2-编译"><a href="#2-编译" class="headerlink" title="2.编译"></a>2.编译</h2><p>因为内核源码中都写好了MakeFile，所以直接make就行了，至于指定多线程，应该是学习make命令的事吧。 make -jn。</p><h3 id="编译产物"><a href="#编译产物" class="headerlink" title="编译产物"></a>编译产物</h3><p>编译之后主要有内核映像文件（vmlinuz 或 zImage），其中vmlinux主要是用于调试、分析或其他高级用途（没有压缩），zImage通常用于启动时加载到内存中（压缩了）。<br>内核模块（.ko 文件）<br>内核配置文件（.config）</p><h2 id="3-安装"><a href="#3-安装" class="headerlink" title="3.安装"></a>3.安装</h2><ul><li>sudo make install  安装内核映像</li><li>sudo make modules_install   安装内核模块</li><li>sudo update-grub    更新引导加载器（GRUB）</li></ul><p>其中grep “menuentry” /boot/grub/grub.cfg   列出所有可用的内核版本和启动项</p><p>对于远程连接服务器而言，没有启动界面来选择启动的内核，所以需要指定默认的启动内核。通过上面的命令列出可用的内核版本，根据顺序在/etc/default/grub中指定GRUB_DEFAULT的值就行。0 表示默认启动第一个菜单项。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux Kernel </tag>
+            
+            <tag> notes </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Linux内核设计与实现学习笔记——ch1</title>
       <link href="//Linux%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-ch1/"/>
       <url>//Linux%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-ch1/</url>
